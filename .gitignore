@@ -1,0 +1,10 @@
+*.FASL
+*.fasl
+*.lisp-temp
+*.fas
+*.png
+*.dot
+*.lib
+city
+known-city
+trash/
