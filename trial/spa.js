@@ -46,7 +46,7 @@ var spa = (function ($) {
         }
         
         //スライダーから移行中の場合は何もしない
-        return faluse;
+        return false;
     }
     
     // イベントハンドラ /onClickSlider/
