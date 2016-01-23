@@ -44,16 +44,17 @@ spa.shell = (function () {
     };
     // DOMメソッド/setJqueryMap終了
     //-----------------DOMメソッド終了-------------
+
     //-----------------イベントハンドラ開始-------------
     //-----------------イベントハンドラ終了-------------
     //-----------------パブリックメソッド開始-------------
-    //パブリックメソッド /initModule開始
+    //パブリックメソッド /initModule /開始
     initModule = function ($container) {
         stateMap.$container = $container;
         $container.html(configMap.main_html);
         setJqueryMap();
     };
-    //パブリックメソッド /initModule終了
+    //パブリックメソッド /initModule /終了
     return {initModule : initModule};
     //-----------------パブリックメソッド終了-------------
 }());
