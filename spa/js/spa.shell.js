@@ -137,7 +137,7 @@ spa.shell = (function () {
         //チャットスライダーを初期化し、クリックハンドラをバインドする
         stateMap.is_chat_retracted = true;
         jqueryMap.$chat
-            .attr('title', configMap.chat_retract_height)
+            .attr('title', configMap.chat_retract_title)
             .click(onClickChat);
     };
     //パブリックメソッド /initModule /終了
