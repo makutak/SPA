@@ -296,3 +296,16 @@ spa.shell = (function () {
     return {initModule : initModule};
     //-----------------パブリックメソッド終了-------------
 }());
+
+//コールバックメソッド /setChatAnchor/ 開始
+//用例: setChatAnchor('closed');
+//目的: アンカーのチャットコンポーネントを変更する。
+//引数:
+//  * position_type - 「closed」または「opened」
+//動作:
+//  可能ならURIアンカーパラメータ「chat」を要求値に変更する。
+//戻り値:
+//  * true - 要求されたアンカー部分が更新された
+//  * false - 要求されたアンカー部分が更新されなかった
+//例外発行: なし
+//コールバックメソッド /setChatAnchor/ 終了
