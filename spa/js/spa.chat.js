@@ -19,41 +19,43 @@ spa.chat = (function () {
         
             + '<div class="spa-chat">'
             + '<div class="spa-chat-head">'
-            + '<div class="spa-chat-head-toggle"> + </div>'
-            + '<div class="spa-chat-head-head">'
+            + '<div class="spa-chat-head-toggle">+</div>'
+            + '<div class="spa-chat-head-title">'
             + 'Chat'
             + '</div>'
             + '</div>'
             + '<div class="spa-chat-closer">x</div>'
+            + '<div class="spa-chat-sizer">'
             + '<div class="spa-chat-msgs"></div>'
-            + '<div class="spa-chat-box>'
+            + '<div class="spa-chat-box">'
+            + '<input type="text" />'
             + '<div>send</div>'
             + '</div>'
             + '</div>'
             + '</div>',
 
         settable_map : {
-            slider_open_time : true,
-            slider_close_time : true,
-            slider_opend_em : true,
-            slider_closed_em : true,
-            slider_opend_title : true,
+            slider_open_time    : true,
+            slider_close_time   : true,
+            slider_opened_em    : true,
+            slider_closed_em    : true,
+            slider_opened_title : true,
             slider_closed_title : true,
 
-            chat_model : true,
-            peple_model : true,
-            set_chat_title : true
+            chat_model      : true,
+            peple_model     : true,
+            set_chat_anchor : true
         },
 
-        slider_open_time : 250,
-        slider_close_time : 250,
-        slider_opend_em : 16,
-        slider_closed_em : 2,
-        slider_opend_title : 'Click to close',
+        slider_open_time    : 250,
+        slider_close_time   : 250,
+        slider_opened_em    : 16,
+        slider_closed_em    : 2,
+        slider_opened_title : 'Click to close',
         slider_closed_title : 'Click to open',
 
-        chat_model : null,
-        peple_model : null,
+        chat_model      : null,
+        peple_model     : null,
         set_chat_anchor : null
     },
         
@@ -74,7 +76,7 @@ spa.chat = (function () {
     //----------モジュールスコープ変数終了------------
 
     //----------ユーティリティメソッド開始------------
-    getEmSize = function (em) {
+    getEmSize = function (elem) {
         return Number(
             getComputedStyle(elem, '').fontSize.match(/\d*\.?\d*/)[0]
         );
@@ -86,34 +88,34 @@ spa.chat = (function () {
     // DOMメソッド /setJqueryMap/開始
     setJqueryMap = function () {
         var $append_target = stateMap.$append_target,
-            $slider = $append_target.find('spa-chat');
+            $slider = $append_target.find('.spa-chat');
 
         jqueryMap = {
             $slider : $slider,
-            $head : $slider.find('.spa-chat-head'),
+            $head   : $slider.find('.spa-chat-head'),
             $toggle : $slider.find('.spa-chat-head-toggle'),
-            $title : $slider.find('.spa-chat-head-title'),
-            $sizer : $slider.find('.spa-chat-msgs'),
-            $msgs : $slider.find('.spa-chat-msgs'),
-            $box : $slider.find('.spa-chat-box'),
-            $input : $slider.find('.spa-chat-input input[type=text]')
+            $title  : $slider.find('.spa-chat-head-title'),
+            $sizer  : $slider.find('.spa-chat-sizer'),
+            $msgs   : $slider.find('.spa-chat-msgs'),
+            $box    : $slider.find('.spa-chat-box'),
+            $input  : $slider.find('.spa-chat-input input[type=text]')
         };
     };
     // DOMメソッド /setJqueryMap/終了
 
     //DOMメソッド /setPxSizes/ 開始
     setPxSizes = function () {
-        var px_per_em, opend_height_em;
+        var px_per_em, opened_height_em;
         px_per_em = getEmSize(jqueryMap.$slider.get(0));
 
-        opend_height_em = configMap.slider_open_em;
+        opened_height_em = configMap.slider_opened_em;
 
         stateMap.px_per_em = px_per_em;
         stateMap.slider_closed_px = configMap.slider_closed_em * px_per_em;
-        stateMap.slider_opened_px = opend_height_em * px_per_em;
+        stateMap.slider_opened_px = opened_height_em * px_per_em;
 
         jqueryMap.$slider.css({
-            height : (opend_height_em - 2) * px_per_em
+            height : (opened_height_em - 2) * px_per_em
         });
     };
     //DOMメソッド /setPxSizes/ 終了
@@ -136,7 +138,7 @@ spa.chat = (function () {
         var height_px, animate_time, slider_title, toggle_text;
 
         //スライダーがすでに要求された位置にある場合はtrueを返す
-        if (stateMap.position_type == position_type) {
+        if (stateMap.position_type === position_type) {
             return true;
         }
 
@@ -145,13 +147,13 @@ spa.chat = (function () {
         case 'opened' :
             height_px = stateMap.slider_opened_px;
             animate_time = configMap.slider_open_time;
-            slider_title = configMap.slider_opend_title;
-            toggle_text = '"';
+            slider_title = configMap.slider_opened_title;
+            toggle_text = '=';
             break;
 
         case 'hidden':
             height_px = 0;
-            animate_time = configMap.slider_opened_time;
+            animate_time = configMap.slider_open_time;
             slider_title = '';
             toggle_text = '+';
             break;
@@ -159,7 +161,7 @@ spa.chat = (function () {
         case 'closed':
             height_px = stateMap.slider_closed_px;
             animate_time = stateMap.slider_close_time;
-            slider_title = configMap.slider_close_title;
+            slider_title = configMap.slider_closed_title;
             toggle_text = '+';
             break;
 
@@ -200,7 +202,7 @@ spa.chat = (function () {
 
     //----------パブリックメソッド開始----------------
     //パブリックメソッド /configModule/ 開始
-    //用例 : spa.hat.configModule( {slider_open_em : 18} );
+    //用例 : spa.chat.configModule( {slider_open_em : 18} );
     //目的 : 初期化前にモジュールを構成する
     //引数 : 
     //  * set_chat_anchor - オープンまたはクローズ状態を示すように
@@ -213,7 +215,7 @@ spa.chat = (function () {
     //  * people_model - モデルが保持する人々のリストを管理する。
     //    メソッドを提供するピープルモデルオブジェクト。
     //
-    //  * slider_* - 構成。すべてオプションのスカラー。
+    //  * slider_*構成。すべてオプションのスカラー。
     //    完全なリストは mapConfig.setting_map を参照。
     //    用例 : slider_open_em は em 単位のオープン時の高さ。
     //動作 :
@@ -235,8 +237,7 @@ spa.chat = (function () {
 
     //パブリックメソッド /initModule/ 開始
     //用例 : spa.chat.initModule( $('#div_id'));
-    //目的 :
-    //  ユーザに機能を提供するようにチャットに指示する
+    //目的 : ユーザに機能を提供するようにチャットに指示する
     //引数 : 
     //  * $append_target (例: $('#div_id'));
     //  1つのDOMコンテナを表すjQueryコレクション
@@ -246,37 +247,26 @@ spa.chat = (function () {
     //戻り値 : 成功時には、true。失敗時には、false。
     //例外発行 : なし
     //
-    initModule = function ($container) {
-        $container.html (configMap.main_html);
-        stateMap.$container = $container;
+    initModule = function ($append_target) {
+        $append_target.append(configMap.main_html);
+        stateMap.$append_target = $append_target;
         setJqueryMap();
+        setPxSizes();
+
+        //チャットスライダーをデフォルトのタイトルと状態で初期化する
+        jqueryMap.$toggle.prop('title', configMap.slider_closed_title);
+        jqueryMap.$head.click(onClickToggle);
+        stateMap.position_type = 'closed';
+
         return true;
     };
     //パブリックメソッド /initModule/ 終了
 
     //パブリックメソッドを戻す
     return {
-        configModule : configModule,
-        initModule : initModule
+        setSliderPosition : setSliderPosition,
+        configModule      : configModule,
+        initModule        : initModule
     };
-
-    //パブリックメソッド /setSliderPosition/ 開始
-    //
-    //用例: spa.chat.setSliderPosition('closed');
-    //目的: チャットスライダーが要求された状態になるようにする
-    //引数:
-    //  * position_type - enum('closed', 'opened', または'hidden')
-    //  * callback - アニメーションの最後のオプションのコールバック
-    //    (コールバックは引数としてスライダーDOM要素を受け取る)
-    //動作:
-    //  スライダーが要求に合致している場合は現在の状態のままにする
-    //  それ以外の場合はアニメーションを使って要求された状態にする。
-    //戻り値:
-    //  * true - 要求された除隊を実現した
-    //  * false - 要求された状態を実現してない
-    //例外発行: なし
-    //
-    //パブリックメソッド /setSliderPosition/ 終了    
     //----------パブリックメソッド終了----------------
 }());
-

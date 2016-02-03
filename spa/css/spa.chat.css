@@ -4,7 +4,7 @@
 */
 
 .spa-chat {
-    position : sbsolute;
+    position : absolute;
     bottom : 0;
     right : 0;
     width : 25em;
@@ -12,14 +12,14 @@
     background : #fff;
     border-radius: 0.5em 0 0 0;
     border-style : solid;
-    boder-width : thin 0 0 thi;
+    boder-width : thin 0 0 thin;
     border-color : #888;
     box-shadow : 0 0 0.75em 0 #888;
     z-index : 1;
 }
 
 .spa-chat-head, .spa-chat-closer {
-    position : sbsolute;
+    position : absolute;
     top : 0;
     height : 2em;
     line-height : 1.8em;
