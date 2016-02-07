@@ -16,7 +16,6 @@ spa.chat = (function () {
     //----------モジュールスコープ変数開始------------
     var configMap = {
         main_html : String()
-        
             + '<div class="spa-chat">'
             + '<div class="spa-chat-head">'
             + '<div class="spa-chat-head-toggle">+</div>'
@@ -43,7 +42,7 @@ spa.chat = (function () {
             slider_closed_title : true,
 
             chat_model      : true,
-            peple_model     : true,
+            people_model     : true,
             set_chat_anchor : true
         },
 
@@ -55,7 +54,7 @@ spa.chat = (function () {
         slider_closed_title : 'Click to open',
 
         chat_model      : null,
-        peple_model     : null,
+        people_model     : null,
         set_chat_anchor : null
     },
         
@@ -114,7 +113,7 @@ spa.chat = (function () {
         stateMap.slider_closed_px = configMap.slider_closed_em * px_per_em;
         stateMap.slider_opened_px = opened_height_em * px_per_em;
 
-        jqueryMap.$slider.css({
+        jqueryMap.$sizer.css({
             height : (opened_height_em - 2) * px_per_em
         });
     };
@@ -176,7 +175,7 @@ spa.chat = (function () {
             animate_time,
             function () {
                 jqueryMap.$toggle.prop('title',slider_title),
-                jqueryMap.$toggle.text('toggle_text');
+                jqueryMap.$toggle.text(toggle_text);
                 stateMap.position_type = position_type;
                 if (callback) { callback(jqueryMap.$slider); }
             }
@@ -189,7 +188,7 @@ spa.chat = (function () {
 
     //----------イベントハンドラ開始------------------
     onClickToggle = function (event) {
-        var set_chat_title = configMap.set_chat_anchor;
+        var set_chat_anchor = configMap.set_chat_anchor;
         if (stateMap.position_type === 'opened') {
             set_chat_anchor('closed');
         }
@@ -229,7 +228,7 @@ spa.chat = (function () {
         spa.util.setConfigMap({
             input_map : input_map,
             settable_map : configMap.settable_map,
-            configMap : configMap
+            config_map : configMap
         });
         return true;
     };
