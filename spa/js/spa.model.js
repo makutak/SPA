@@ -45,11 +45,13 @@ spa.model = (function () {
         }
 
         person = Object.create(personProto);
-        person.id = cid;
+        person.cid = cid;
         person.name = name;
         person.css_map = css_map;
 
         if (id) { person.id = id; }
+
+        stateMap.people_cid_map[cid] = person;
 
         stateMap.people_db.insert(person);
         return person;
