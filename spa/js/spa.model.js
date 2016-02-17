@@ -26,7 +26,7 @@ spa.model = (function () {
 
     isFakeData = true,
 
-    personProto, makeCid, cleanPeopleDb, completeLogin,
+    personProto, makeCid, clearPeopleDb, completeLogin,
     makePerson, removePerson, people, chat, initModule;
 
     //peopleオブジェクトAPI
@@ -85,7 +85,7 @@ spa.model = (function () {
         return 'c' + String(stateMap.cid_serial++);
     };
 
-    cleanPeopleDb = function () {
+    clearPeopleDb = function () {
         var user = stateMap.user;
         stateMap.people_db = TAFFY();
         stateMap.people_cid_map = {};
@@ -252,7 +252,7 @@ spa.model = (function () {
             _update_list, _leave_chat, join_chat;
 
         //内部メソッド開始
-        _update_list = function () {
+        _update_list = function (arg_list) {
             var i, person_map, make_person_map,
                 people_list = arg_list[0];
 
