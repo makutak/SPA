@@ -61,7 +61,7 @@ spa.fake = (function () {
         };
 
         emit_sio = function (msg_type, data) {
-            var person_map;
+            var person_map, i;
 
             //3秒間の遅延後に「userupdata」コールバックで
             //「adduser」イベントに反応する。
@@ -102,6 +102,19 @@ spa.fake = (function () {
                     listchange_idto = undefined;
                 }
                 send_listchange();
+            }
+
+            //サーバへの「updateavatar」というメッセージとデータの送信をシミュレートする
+            if (msg_type === 'updateavatar' && callback_map.listchange) {
+                //「listchange」メッセージの受信をシミュレートする
+                for (i = 0; i < peopleList.length; i++) {
+                    if (peopleList[i]._id === data.person_id) {
+                        peopleList[i].css_map = data.css_map;
+                        break;
+                    }
+                }
+                //「listchange」メッセージ用のコールバックを実行する
+                callback_map.listchange([peopleList]);
             }
         };
 
