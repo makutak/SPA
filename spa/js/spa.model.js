@@ -8,7 +8,7 @@
    newcap : true, nomen  : true, plusplus : true,
    regexp : true, sloppy : true,     vars : false,
    white  : true
-*/
+n*/
 
 /* global $, spa */
 spa.model = (function () {
@@ -253,7 +253,8 @@ spa.model = (function () {
         var _publish_listchange, _publish_updatechat,
             _update_list, _leave_chat,
 
-            get_chatee, join_chat, send_msg, set_chatee,
+            get_chatee, join_chat, send_msg,
+            set_chatee, update_avatar,
             chatee = null;
 
         //内部メソッド開始
@@ -378,12 +379,25 @@ spa.model = (function () {
             return true;
         };
 
+        // avtr_update_mapは以下の形式を持つべき
+        // {person_id : <stiring>, css_map : {
+        //   top : <int>, left : <int>,
+        //  'background-color' : <string>'
+        // }};
+        update_avatar = function (avatar_update_map) {
+            var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+            if (sio) {
+                sio.emit('updateavatar', avatar_update_map);
+            }
+        };
+
         return {
-            _leave     : _leave_chat,
-            get_chatee : get_chatee,
-            join       : join_chat,
-            send_msg   : send_msg,
-            set_chatee : set_chatee
+            _leave        : _leave_chat,
+            get_chatee    : get_chatee,
+            join          : join_chat,
+            send_msg      : send_msg,
+            set_chatee    : set_chatee,
+            update_avatar : update_avatar
         };
     }());
 
