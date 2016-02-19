@@ -226,7 +226,7 @@ spa.model = (function () {
     //  update_avtr_mapを送信する。これにより、更新sれたユーザリストと
     //  アバター情報(personオブジェクトのcss_map)を含む「spa-listchange」イベントが発行される。
     //  update_avtr_mapは以下のような形式でなければならない。
-    //  {person_id : person_id, css_map : css_map}.
+    //  {person_id : person_id, css_map : css_map}
     //
     //このオブジェクトが発行するjQueryグローバルカスタムイベントには以下が含まれる。
     //
@@ -338,6 +338,7 @@ spa.model = (function () {
             stateMap.is_connected = true;
             return true;
         };
+
         send_msg = function (msg_text) {
             var msg_map,
                 sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
