@@ -41,7 +41,7 @@ input, textarea, .spa-x-select {
 
 /** 標準セレクタ開始 */
 body {
-    font : 10px 'Trebuchet MS', Verdana, Helvetica, Ariak, sans-serif;
+    font : 10pt 'Trebuchet MS', Verdana, Helvetica, Arial, sans-serif;
     color : #444;
     background-color : #888;
 }
