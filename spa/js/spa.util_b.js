@@ -79,7 +79,7 @@ spa.util_b = (function () {
     //getEmSize開始
     //emのサイズをピクセルで返す
     //
-    getEmSize = function () {
+    getEmSize = function (elem) {
         return Number(
             getComputedStyle(elem, '').fontSize.match(/\d*\.?\d*/)[0]
         );
