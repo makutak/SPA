@@ -240,13 +240,11 @@ spa.chat = (function () {
         );
 
         scrollChat();
-
-        
     };
 
     writeAlert = function (alert_text) {
         jqueryMap.$msg_log.append(
-            '<div class="spa-chat-msg-log-alert>'
+            '<div class="spa-chat-msg-log-alert">'
                 + spa.util_b.encodeHtml(alert_text)
                 + '</div>'
         );
@@ -303,10 +301,10 @@ spa.chat = (function () {
         jqueryMap.$input.focus();
         if (!new_chatee) {
             if(old_chatee) {
-                writeAlert(old_chatee + 'has left the chat');
+                writeAlert(old_chatee.name + 'has left the chat');
             }
             else {
-                writeChat('Your friend has left the chat');
+                writeAlert('Your friend has left the chat');
             }
             jqueryMap.$title.text('Chat');
             return false;
@@ -386,8 +384,8 @@ spa.chat = (function () {
         configMap.set_chat_anchor('opened');
     };
 
-    onLogout = function (event, logout_uset) {
-        configMap.set_chat_anchor('close');
+    onLogout = function (event, logout_user) {
+        configMap.set_chat_anchor('closed');
         jqueryMap.$title.text('Chat');
         clearChat();
     };
@@ -515,7 +513,7 @@ spa.chat = (function () {
 
         setPxSizes();
         if (stateMap.position_type === 'opened') {
-            jqueryMap.$slider.css( {heght : stateMap.slider_opened_px} );
+            jqueryMap.$slider.css( {height : stateMap.slider_opened_px} );
         }
         return true;
     };
