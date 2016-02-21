@@ -63,10 +63,10 @@ spa.fake = (function () {
         emit_sio = function (msg_type, data) {
             var person_map, i;
 
-            //3秒間の遅延後に「userupdata」コールバックで
+            //3秒間の遅延後に「userupdate」コールバックで
             //「adduser」イベントに反応する。
             //
-            if (msg_type === 'adduser' && callback_map.userupdata) {
+            if (msg_type === 'adduser' && callback_map.userupdate) {
                 setTimeout(function () {
                     person_map = {
                         _id     : makeFakeId(),
@@ -74,7 +74,7 @@ spa.fake = (function () {
                         css_map : data.css_map
                     };
                     peopleList.push(person_map);
-                    callback_map.userupdata([person_map]);
+                    callback_map.userupdate([person_map]);
                 }, 3000);
             }
 
