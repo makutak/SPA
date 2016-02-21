@@ -167,7 +167,7 @@ spa.model = (function () {
                 name    : name
             });
 
-            sio.on('userupdata', completeLogin);
+            sio.on('userupdate', completeLogin);
 
             sio.emit('adduser', {
                 cid     : stateMap.user.cid,
@@ -289,7 +289,6 @@ spa.model = (function () {
                     is_chatee_online = true;
                     chatee = person;
                 }
-                makePerson(make_person_map);
             }
 
             stateMap.people_db.sort('name');
