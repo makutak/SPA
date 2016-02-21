@@ -144,7 +144,7 @@ spa.avtr = (function () {
         //new_chateeアバターに強調表示を追加する
         if (new_chatee) {
             $nav
-                .find('.spa-avtr-box-[data-id=' + new_chatee.cid + ']')
+                .find('.spa-avtr-box[data-id=' + new_chatee.cid + ']')
                 .addClass('spa-x-is-chatee');
         }
     };
