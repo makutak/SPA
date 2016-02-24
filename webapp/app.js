@@ -23,6 +23,8 @@ var http = require( 'http' ),
 app.configure( function () {
     app.use( express.bodyParser() );
     app.use( express.methodOverride() );
+    app.use( express.static(__dirname + '/public') );
+    app.use( app.router );
 } );
 
 
@@ -41,7 +43,7 @@ app.configure( 'production', function () {
 
 
 app.get( '/', function( request, response ) {
-    response.send( 'Hello Express' );
+    response.redirect( '/spa.html' );
 });
 //サーバ構成終了
 
