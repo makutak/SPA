@@ -12,20 +12,23 @@
 /* global */
 
 //モジュールスコープ変数の宣言
-var connectHello, server,
-    http = require('http'),
-    connect = require('connect'),
-    app = connect(),
-    bodyText = 'Hello Connect';
+'use strict';
+var http = require('http'),
+    express = require('express'),
+    app = express(),
+    server = http.createServer(app);
+//モジュールスコープ変数終了
 
+//サーバ構成開始
+app.get('/', function(request, response) {
+    response.send('Hello Express');
+});
+//サーバ構成終了
 
-connectHello = function (request, response, next) {
-    response.setHeader('content-length', bodyText.length);
-    response.end(bodyText);
-};
-
-app.use(connectHello);
-server = http.createServer(app);
-
+//サーバ起動開始
 server.listen(3000);
-console.log('Listening on port %d', server.address().port);
+console.log(
+    'Express Server listning on port %d in %s mode',
+    server.address().port, app.settings.env
+);
+//サーバ起動終了
