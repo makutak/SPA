@@ -20,6 +20,7 @@ var http = require('http'),
 //モジュールスコープ変数終了
 
 //サーバ構成開始
+app.use(express.logger());
 app.get('/', function(request, response) {
     response.send('Hello Express');
 });
