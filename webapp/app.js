@@ -1,5 +1,5 @@
 /*
- * app.js - Hello World
+ * app.js - 高度なルーティングを備えたExpressサーバ
  */
 
 /* jslint        node   : true, continue : true,
@@ -41,9 +41,21 @@ app.configure( 'production', function () {
     app.use( express.errorHandler() );
 });
 
-
+//以下の設定はすべてルート用
 app.get( '/', function( request, response ) {
     response.redirect( '/spa.html' );
+});
+
+
+app.get('/user/list', function( request, response ) {
+    response.contentType( 'json' );
+    response.send( {title: 'user list'} );
+});
+
+
+app.post('/user/create', function( request, response ) {
+    response.contentType( 'json' );
+    response.send( {title: 'user created'} );
 });
 //サーバ構成終了
 
