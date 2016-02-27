@@ -15,8 +15,11 @@
 'use strict';
 var http = require( 'http' ),
     express = require( 'express' ),
+    routes = require('./routes'),
     app = express(),
     server = http.createServer( app );
+
+routes();
 //モジュールスコープ変数終了
 
 //サーバ構成開始
