@@ -13,7 +13,21 @@
 
 //モジュールスコープ変数の宣言
 'use strict';
-var configRoutes;
+var configRoutes,
+    mongodb = require('mongodb'),
+
+    mongoServer = new mongodb.Server(
+        'localhost',
+        mongodb.Connection.DEFAULT_PORT
+    ),
+    dbHandle = new mongodb.Db(
+        'spa', mongoServer, { sage : true }
+    );
+
+dbHandle.open( function () {
+    console.log( '** Connected to MongoDB **' );
+});
+
 //モジュールスコープ変数終了
 
 //パブリックメソッド開始
