@@ -21,7 +21,7 @@ var configRoutes,
         mongodb.Connection.DEFAULT_PORT
     ),
     dbHandle = new mongodb.Db(
-        'spa', mongoServer, { sage : true }
+        'spa', mongoServer, { safe : true }
     );
 
 dbHandle.open( function () {
@@ -43,7 +43,17 @@ configRoutes = function (app, server) {
 
 
     app.get( '/:obj_type/list', function( request, response ) {
-        response.send( {title: request.params.obj_type + ' list'} );
+        dbHandle.collection(
+            request.params.obj_type,
+            function( outer_error, collection ){
+                collection.find().toArray(
+                    function(inner_error, map_list) {
+                        response.send(map_list);
+                    }
+                );
+            }
+        );
+        //response.send( {title: request.params.obj_type + ' list'} );
     });
 
 
