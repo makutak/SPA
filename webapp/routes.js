@@ -24,7 +24,8 @@ var configRoutes,
         'spa', mongoServer, { safe : true }
     ),
 
-    makeMongoId = mongodb.ObjectID;
+    makeMongoId = mongodb.ObjectID,
+    objTypeMap  = { 'user': {} };
 //モジュールスコープ変数終了
 
 //パブリックメソッド開始
@@ -35,7 +36,12 @@ configRoutes = function (app, server) {
 
     app.all( '/:obj_type/*?', function( request, response, next) {
         response.contentType( 'json' );
-        next();
+        if (objTypeMap[request.params.obj_type]) {
+            next();
+        }
+        else {
+            response.send({ error_msg : request.params.obj_type + ' is not a valid object type'});
+        }
     });
 
 
