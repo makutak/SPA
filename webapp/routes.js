@@ -13,8 +13,9 @@
 
 //モジュールスコープ変数の宣言
 'use strict';
-var configRoutes,
-    mongodb = require('mongodb'),
+var loadSchema, configRoutes,
+    mongodb  = require('mongodb'),
+    fsHandle = require('fs'),
 
     mongoServer = new mongodb.Server(
         'localhost',
@@ -27,6 +28,14 @@ var configRoutes,
     makeMongoId = mongodb.ObjectID,
     objTypeMap  = { 'user': {} };
 //モジュールスコープ変数終了
+
+//ユーティリティメソッド開始
+loadSchema = function ( schema_name, schema_path ) {
+    fsHandle.readFile( schema_path, 'utf-8', function ( err, data ) {
+        objTypeMap[schema_name] = JSON.parse(data);
+    });
+};
+//ユーティリティメソッド終了
 
 //パブリックメソッド開始
 configRoutes = function (app, server) {
@@ -146,4 +155,15 @@ module.exports = {configRoutes : configRoutes};
 dbHandle.open( function () {
     console.log( '** Connected to MongoDB ** ' );
 });
+
+//スキーマをメモリ(objTypeMap)にロードする
+(function () {
+    var schema_name, schema_path;
+    for (schema_name in objTypeMap) {
+        if ( objTypeMap.hasOwnProperty(schema_name) ) {
+            schema_path = __dirname + '/' + schema_name + '.json';
+            loadSchema(schema_name, schema_path);
+        }
+    }
+}());
 //モジュール初期化終了
