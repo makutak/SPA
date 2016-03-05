@@ -1,6 +1,6 @@
 { "type" : "object",
   "additionalProperties" : false,
-  "propserties" : {
+  "properties" : {
       "_id" : {
           "type" : "string",
           "minLength" : 25,
