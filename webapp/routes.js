@@ -25,7 +25,7 @@ var loadSchema, checkSchema, configRoutes,
     dbHandle = new mongodb.Db(
       'spa', mongoServer, { safe : true }
     ),
-    validator = JSV.createEnviroment(),
+    validator = JSV.createEnvironment(),
 
     makeMongoId = mongodb.ObjectID,
     objTypeMap  = { 'user': {} };
