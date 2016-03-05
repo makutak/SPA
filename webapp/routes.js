@@ -143,6 +143,7 @@ configRoutes = function (app, server) {
                   options_map = {
                     'new' : true, upsert: false, safe: true
                   };
+
               collection.findAndModify(
                 find_map,
                 sort_order,
