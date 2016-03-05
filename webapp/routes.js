@@ -130,7 +130,11 @@ configRoutes = function (app, server) {
   app.post( '/:obj_type/update/:id', function( request, response ) {
     var find_map = { _id: makeMongoId (request.params.id) },
         obj_map  = request.body,
-        obj_type =  request.params.obj_type;
+        obj_type = request.params.obj_type;
+
+    console.log(find_map);
+    console.log(obj_type);
+    console.log(obj_map);
 
     checkSchema(
       obj_type, obj_map,
