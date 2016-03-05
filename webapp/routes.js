@@ -13,9 +13,10 @@
 
 //モジュールスコープ変数の宣言
 'use strict';
-var loadSchema, configRoutes,
+var loadSchema, checkSchema, configRoutes,
     mongodb  = require('mongodb'),
     fsHandle = require('fs'),
+    JSV      = require('JSV').JSV,
 
     mongoServer = new mongodb.Server(
         'localhost',
@@ -24,6 +25,7 @@ var loadSchema, configRoutes,
     dbHandle = new mongodb.Db(
         'spa', mongoServer, { safe : true }
     ),
+    validator = JSV.createEnviroment(),
 
     makeMongoId = mongodb.ObjectID,
     objTypeMap  = { 'user': {} };
@@ -34,6 +36,13 @@ loadSchema = function ( schema_name, schema_path ) {
     fsHandle.readFile( schema_path, 'utf-8', function ( err, data ) {
         objTypeMap[schema_name] = JSON.parse(data);
     });
+};
+
+checkSchema = function ( obj_type, obj_map, callback ) {
+    var schema_map = objTypeMap[obj_type],
+        report_map = validator.validate( obj_map, schema_map );
+
+    callback( report_map.errors );
 };
 //ユーティリティメソッド終了
 
