@@ -124,7 +124,32 @@ chatObj = {
              });
              // /adduser/メッセージハンドラ終了
 
-             socket.on( 'updatechat', function () {} );
+             // /updatechat/メッセージハンドラ開始
+             // 概要: チャットのメッセージを処理する。
+             // 引数: 1つのchat_mapオブジェクト。
+             //   chat_mapは以下のプロパティを持つべき。
+             //     dest_id   = 受信者のID
+             //     dest_name = 受信者の名前
+             //     sender_id = 送信者のID
+             //     msg_text  = メッセージテキスト
+             // 動作:
+             //  受信者がオンラインの場合、受信者にchat_mapを送信する。
+             //  オンラインではない場合、「user has gone offline」頭位メッセージを送信者に送信する。
+             //
+             socket.on( 'updatechat', function ( chat_map ) {
+               if ( chatter_map.hasOwnProperty( chat_map.dest_id ) ) {
+                 chatterMap[chat_map.dest_id]
+                   .emit( 'updatechat', chat_map );
+               }
+               else {
+                 socket.emit( 'updatechat', {
+                   sender_id : chat_map.sender_id,
+                   msg_text  : chat_map.dest_name + ' has gone offline.'
+                 });
+               }
+             });
+             // /updatechat/メッセージハンドラ終了
+
              socket.on( 'leavechat', function () {} );
              socket.on( 'disconnect', function () {} );
              socket.on( 'updateavater', function () {} );
