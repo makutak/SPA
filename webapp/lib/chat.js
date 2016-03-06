@@ -22,6 +22,22 @@ var chatObj,
 chatObj = {
   connect : function ( server ) {
     var io = socket.listen(server);
+
+    //io設定開始
+    io
+      .set( 'blacklist', [] )
+      .of( '/chat' )
+      .on( 'connection',
+           function( socket ) {
+             socket.on( 'adduser', function() {} );
+             socket.on( 'updatechat', function () {} );
+             socket.on( 'leavechat', function () {} );
+             socket.on( 'disconnect', function () {} );
+             socket.on( 'updateavater', function () {} );
+           }
+         );
+    //io設定終了
+
     return io;
   }
 };
