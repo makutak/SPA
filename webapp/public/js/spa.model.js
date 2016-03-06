@@ -18,10 +18,10 @@ spa.model = (function () {
   stateMap = {
     anon_user      : null,
     cid_serial     : 0,
+    is_connected   : false,
     people_cid_map : {},
     people_db      : TAFFY(),
-    user           : null,
-    is_connected   : false
+    user           : null
   },
 
   isFakeData = false,
@@ -403,8 +403,6 @@ spa.model = (function () {
   }());
 
   initModule = function () {
-    var i, people_list, person_map;
-
     //匿名ユーザを初期化する
     stateMap.anon_user = makePerson({
       cid  : configMap.anon_id,
