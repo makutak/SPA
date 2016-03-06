@@ -17,7 +17,6 @@ var configRoutes,
     crud        = require('./crud'),
     chat        = require('./chat'),
     makeMongoId = crud.makeMongoId,
-    objTypeMap  = { 'user': {} };
 //モジュールスコープ変数終了
 
 //パブリックメソッド開始
@@ -54,8 +53,8 @@ configRoutes = function (app, server) {
     crud.read(
       request.params.obj_type,
       { _id: makeMongoId(request.params.id) },
-      request.body,
-      function (result_map) { response.send(result_map); }
+      {},
+      function ( map_list ) { response.send( map_list ); }
     );
   });
 
