@@ -13,7 +13,7 @@
 
 //モジュールスコープ変数の宣言
 'use strict';
-var emitUserList, signIn, chatObj,
+var emitUserList, signIn, signOut, chatObj,
     socket = require('socket.io'),
     crud   = require('./crud'),
 
@@ -53,6 +53,18 @@ signIn = function ( io, user_map, socket ) {
 
   chatterMap[user_map._id] = socket;
   socket.user_id = user_map._id;
+};
+
+//signOut - is_onlineプロパティとchatterMapを更新する
+//
+signOut = function ( io, user_id ) {
+  crud.update(
+    'user',
+    { '_id' : user_id },
+    { is_online : false },
+    function ( result_list ) { emitUserList( io ); }
+  );
+  delete chatterMap[user_id];
 };
 //ユーティリティメソッド終了
 
@@ -134,10 +146,10 @@ chatObj = {
              //     msg_text  = メッセージテキスト
              // 動作:
              //  受信者がオンラインの場合、受信者にchat_mapを送信する。
-             //  オンラインではない場合、「user has gone offline」頭位メッセージを送信者に送信する。
+             //  オンラインではない場合、「user has gone offline」というメッセージを送信者に送信する。
              //
              socket.on( 'updatechat', function ( chat_map ) {
-               if ( chatter_map.hasOwnProperty( chat_map.dest_id ) ) {
+               if ( chatterMap.hasOwnProperty( chat_map.dest_id ) ) {
                  chatterMap[chat_map.dest_id]
                    .emit( 'updatechat', chat_map );
                }
@@ -150,8 +162,23 @@ chatObj = {
              });
              // /updatechat/メッセージハンドラ終了
 
-             socket.on( 'leavechat', function () {} );
-             socket.on( 'disconnect', function () {} );
+             //disconnetメソッド開始
+             socket.on( 'leavechat', function () {
+               console.log(
+                 '** user %s logged out **', socket.user_id
+               );
+               signOut( io, socket.user_id );
+             });
+
+             socket.on( 'disconnect', function () {
+               console.log(
+                 '** user %s closed browser window or tab ** ',
+                 socket.user_id
+               );
+               signOut( io, socket.user_id );
+             });
+             //disconnectメソッド終了
+
              socket.on( 'updateavater', function () {} );
            }
          );
