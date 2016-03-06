@@ -42,7 +42,7 @@ emitUserList = function ( io ) {
 signIn = function ( io, user_map, socket ) {
   crud.update(
     'user',
-    { '_id' : user_map.id },
+    { '_id' : user_map._id },
     { is_online : true },
     function ( result_map ) {
       emitUserList( io );
@@ -179,7 +179,24 @@ chatObj = {
              });
              //disconnectメソッド終了
 
-             socket.on( 'updateavater', function () {} );
+             // /updateavatar/メッセージハンドラ開始
+             // 概要: アバターのクライアント更新に対処する
+             // 引数: 1つのavtr_mapオブジェクトavtr_mapは以下のプロパティを持つべき
+             //  person_id = 更新するユーザアバターのID
+             //  css_map   = 上端、左端、背景色のcssマップ
+             //
+             // 動作:
+             //  このハンドラはMongoDBのエントリを更新し、全クライアントに修正したユーザリストを配信する。
+             //
+             socket.on( 'updateavater', function ( avtr_map ) {
+               crud.upate(
+                 'user',
+                 { '_id' : makeMongoId( avtr_map.person_id )},
+                 { css_map : avtr_map.css_map },
+                 function ( result_list ) { emitUserList( io ); }
+               );
+             });
+             // /updateavatar/メッセージハンドラ終了
            }
          );
     //io設定終了
