@@ -85,7 +85,7 @@ spa.chat = (function () {
         writeChat, writeAlert, clearChat,
         setSliderPosition,
         onTapToggle, onSubmitMsg, onTapList,
-        onSetChatee, onUpdateChat, onListChange,
+        onSetchatee, onUpdatechat, onListchange,
         onLogin, onLogout,
         configModule, initModule,
         removeSlider, handleResize
@@ -193,7 +193,7 @@ spa.chat = (function () {
 
         case 'closed':
             height_px = stateMap.slider_closed_px;
-            animate_time = stateMap.slider_close_time;
+            animate_time = configMap.slider_close_time;
             slider_title = configMap.slider_closed_title;
             toggle_text = '+';
             break;
@@ -294,7 +294,7 @@ spa.chat = (function () {
         return false;
     };
 
-    onSetChatee = function (event, arg_map) {
+    onSetchatee = function (event, arg_map) {
         var new_chatee = arg_map.new_chatee,
             old_chatee = arg_map.old_chatee;
 
@@ -322,7 +322,7 @@ spa.chat = (function () {
         return true;
     };
 
-    onListChange = function (event) {
+    onListchange = function (event) {
         var list_html = String(),
             people_db = configMap.people_model.get_db(),
             chatee = configMap.chat_model.get_chatee();
@@ -354,7 +354,7 @@ spa.chat = (function () {
         jqueryMap.$list_box.html(list_html);
     };
 
-    onUpdateChat = function (event, msg_map) {
+    onUpdatechat = function (event, msg_map) {
         var is_user,
             sender_id = msg_map.sender_id,
             msg_text = msg_map.msg_text,
@@ -454,9 +454,9 @@ spa.chat = (function () {
 
         //$list_boxでグローバルイベントに登録する
         $list_box = jqueryMap.$list_box;
-        $.gevent.subscribe($list_box, 'spa-listchange', onListChange);
-        $.gevent.subscribe($list_box, 'spa-setchatee', onSetChatee);
-        $.gevent.subscribe($list_box, 'spa-updatechat', onUpdateChat);
+        $.gevent.subscribe($list_box, 'spa-listchange', onListchange);
+        $.gevent.subscribe($list_box, 'spa-setchatee', onSetchatee);
+        $.gevent.subscribe($list_box, 'spa-updatechat', onUpdatechat);
         $.gevent.subscribe($list_box, 'spa-login', onLogin);
         $.gevent.subscribe($list_box, 'spa-logout', onLogout);
 
